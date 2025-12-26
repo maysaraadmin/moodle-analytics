@@ -174,7 +174,7 @@ class MoodleDashboard:
                     'enrolled_users': 'Enrolled',
                     'completions': 'Completions'
                 }),
-                use_container_width=True
+                width='stretch'
             )
         else:
             st.warning("No course data available")
@@ -198,7 +198,7 @@ class MoodleDashboard:
                 xaxis_title="Date",
                 yaxis_title="Number of Activities"
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         else:
             st.warning("No activity data available")
     
@@ -234,7 +234,7 @@ class MoodleDashboard:
             labels={'x': 'Hour of Day', 'y': 'Number of Activities'},
             title='Activity by Hour of Day'
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     def show_course_analytics(self):
         """Display course analytics with real data"""
@@ -260,7 +260,8 @@ class MoodleDashboard:
             avg_enrollment = course_data['enrolled_users'].mean() if not course_data.empty else 0
             st.metric("Avg. Enrollment", f"{avg_enrollment:.1f}")
         with col3:
-            completion_rate = (course_data['completions'] / course_data['enrolled_users']).mean() * 100 if not course_data.empty and (course_data['enrolled_users'] > 0).any() else 0
+            completion_rate = (course_data['completions'] / course_data['enrolled_users'].replace(0, np.nan)).mean() * 100 if not course_data.empty else 0
+            completion_rate = completion_rate if not np.isnan(completion_rate) else 0
             st.metric("Avg. Completion Rate", f"{completion_rate:.1f}%")
         
         # Course enrollment distribution
@@ -273,7 +274,7 @@ class MoodleDashboard:
                 labels={'enrolled_users': 'Number of Students'},
                 title='Distribution of Course Enrollments'
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
             
             # Top courses by enrollment
             st.subheader("Top Courses by Enrollment")
@@ -286,7 +287,7 @@ class MoodleDashboard:
                     'completions': 'Completions',
                     'completion_rate': 'Completion Rate (%)'
                 }),
-                use_container_width=True
+                width='stretch'
             )
     
     def show_forum_analysis(self):
@@ -316,7 +317,7 @@ class MoodleDashboard:
             labels={'x': 'User ID', 'y': 'Number of Posts'},
             title='Top 10 Most Active Users'
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
         # Posts over time
         if 'created' in forum_data.columns:
@@ -335,7 +336,7 @@ class MoodleDashboard:
                 xaxis_title='Date',
                 yaxis_title='Number of Posts'
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
     
     def show_quiz_performance(self):
         """Display quiz performance analysis with real data"""
@@ -366,7 +367,7 @@ class MoodleDashboard:
                 title='Average Scores by Quiz'
             )
             fig.update_xaxes(tickangle=45)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         
         # Quiz attempts distribution
         attempts_per_quiz = quiz_data['quiz_name'].value_counts()
@@ -376,7 +377,7 @@ class MoodleDashboard:
             names=attempts_per_quiz.index,
             title='Quiz Attempts Distribution'
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     def show_predictive_analytics(self):
         """Display predictive analytics with real data"""
@@ -426,7 +427,7 @@ class MoodleDashboard:
                     names=engagement_counts.index,
                     title='Student Engagement Distribution'
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
             
             with col2:
                 fig = px.bar(
@@ -435,14 +436,14 @@ class MoodleDashboard:
                     labels={'x': 'Engagement Level', 'y': 'Number of Students'},
                     title='Students by Engagement Level'
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
             
             # Show top engaged students
             st.subheader("Most Engaged Students")
             top_students = user_activity.nlargest(10, 'activity_count')
             st.dataframe(
                 top_students[['firstname', 'lastname', 'activity_count', 'engagement_level']],
-                use_container_width=True
+                width='stretch'
             )
         
         # Course completion prediction
@@ -459,7 +460,7 @@ class MoodleDashboard:
                 title='Course Completions'
             )
             fig.update_xaxes(tickangle=45)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
     
     def run(self):
         """Run the dashboard"""
