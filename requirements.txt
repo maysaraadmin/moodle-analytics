@@ -1,0 +1,33 @@
+# requirements.txt
+# Core Data Analysis
+pandas>=1.5.0
+numpy>=1.23.0
+
+# Visualization
+matplotlib>=3.6.0
+seaborn>=0.12.0
+plotly>=5.11.0
+plotly-express>=0.4.1
+
+# Interactive Dashboard
+streamlit>=1.22.0  # OR dash>=2.11.0
+
+# Statistical Analysis
+scipy>=1.9.0
+statsmodels>=0.13.0
+scikit-learn>=1.2.0
+
+# Database & API
+sqlalchemy>=1.4.0
+requests>=2.28.0
+pymysql>=1.0.0  # For MySQL Moodle databases
+
+# Utilities
+jupyter>=1.0.0
+notebook>=6.5.0
+tqdm>=4.64.0
+python-dotenv>=0.21.0
+
+# Specialized for Learning Analytics
+networkx>=2.8.0  # For social network analysis
+textblob>=0.17.0  # For forum text analysis
