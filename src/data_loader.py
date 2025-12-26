@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 
 class MoodleDataLoader:
     def __init__(self, config_path='config.env'):
+        if not os.path.exists(config_path):
+            config_path = 'config.env.example'
         load_dotenv(config_path)
         self.db_connection = None
         

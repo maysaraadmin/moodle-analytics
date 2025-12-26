@@ -104,7 +104,7 @@ class MoodleDashboard:
             if st.button("🔄 Refresh Data", type="primary"):
                 with st.spinner("Refreshing data..."):
                     self.load_data()
-                    st.experimental_rerun()
+                    st.rerun()
             
             # Analysis type selection
             self.analysis_type = st.selectbox(
